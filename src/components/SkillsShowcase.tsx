@@ -8,6 +8,7 @@ import {
   CloudCog,
   Coins,
   Globe,
+  TrendingUp,
   LucideIcon,
   Server,
 } from "lucide-react";
@@ -84,17 +85,17 @@ const skills = [
   },
   {
     id: "devops",
-    title: "DEVOPS",
-    subtitle: "Cloud Infrastructure",
+    title: "MARKETING",
+    subtitle: "Growth & Analytics",
     description:
-      "Automating the bridge between code and deployment. CI/CD pipelines, container orchestration, and cloud infrastructure management ensuring your software runs smoothly everywhere.",
+      "Elevating brand visibility, engaging audiences, and driving measurable growth through smart marketing.",
     details: [
-      "Docker / Kubernetes",
-      "CI / CD Pipelines",
-      "Agile Methodology",
-      "Robot Framework",
+      "Brand Strategy & Positioning",
+      "Perfomance Marketing",
+      "Content & Creative Marketing",
+      "Analytics & Growth Optimization",
     ],
-    icon: CloudCog,
+    icon: TrendingUp,
     color: "#10B981",
     gradient: "from-emerald-500 to-teal-600",
   },
@@ -141,6 +142,7 @@ function SkillCard({ skill, index, isMobile }: SkillCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLSpanElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const paraRef = useRef<HTMLParagraphElement>(null);
   const detailsRef = useRef<HTMLDivElement>(null);
@@ -409,6 +411,21 @@ function SkillCard({ skill, index, isMobile }: SkillCardProps) {
                 ease: "power2.out",
               }
             );
+            if (iconRef.current) {
+              gsap.to(iconRef.current, {
+                keyframes: [{ scale: 1 }, { scale: 1.08 }, { scale: 1 }],
+                duration: 2.5,
+                repeat: -1,
+                ease: "sine.inOut",
+              });
+              gsap.to(iconRef.current, {
+                y: -1,
+                duration: 1.8,
+                yoyo: true,
+                repeat: -1,
+                ease: "sine.inOut",
+              });
+            }
           }
         });
       },
@@ -459,7 +476,9 @@ function SkillCard({ skill, index, isMobile }: SkillCardProps) {
           className={`inline-flex self-start items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r ${skill.gradient} bg-opacity-10 text-white text-xs sm:text-sm font-bold tracking-wider mb-4 sm:mb-6`}
           style={{ transformStyle: "preserve-3d" }}
         >
-          <skill.icon className="w-3 h-3 sm:w-4 sm:h-4" />
+          <span ref={iconRef} className="inline-flex">
+            <skill.icon className="w-3 h-3 sm:w-4 sm:h-4" />
+          </span>
           {skill.subtitle}
         </div>
 

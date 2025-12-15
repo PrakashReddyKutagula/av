@@ -128,60 +128,104 @@ export default async function Home() {
     photo: string;
     linkedin?: string;
     instagram?: string;
+    photoAlt?: string;
+    photoPosition?: string;
   }> = [
     {
       name: "Sharan Reddy",
       role: "Software Engineer",
       bio: "Leads delivery and quality with a focus on user impact.",
-      photo: "/og-image.jpg",
+      photo: "/sharan.jpg",
+      photoAlt: "Sharan Reddy - Software Enginer",
+      linkedin: "https://www.linkedin.com/in/sharan-gosh-reddy-03a084318/",
+      instagram: "https://www.instagram.com/real_sharan_?igsh=NGM2bHd3N2ZqZWVm",
     },
     {
       name: "Puneeth Venkata Sai",
       role: "Software Engineer",
       bio: "Builds robust interfaces and services with modern tooling.",
-      photo: "/og-image.jpg",
+      photo: "/puneeth.jpg",
+      photoAlt: "Puneeth Venkata Sai - Software Engineer",
+      linkedin:
+        "https://www.linkedin.com/in/puneeth-venkat-sai-lakkolla-535a42329?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+      instagram: "https://www.instagram.com/puneeth_roy_45?igsh=N3ZpaHZ6cmt4cmYx",
     },
     {
       name: "Prakash Reddy",
       role: "Engineer",
       bio: "Focuses on performance and maintainable systems.",
-      photo: "/og-image.jpg",
+      photo: "/prakash.jpg",
+      photoAlt: "Prakash Reddy - Software Engineer",
+      linkedin:
+        "https://www.linkedin.com/in/prakash-reddy-kutagula-76a1b0317/",
+      instagram: "https://www.instagram.com/prakashreddy__k?igsh=MWxjZDRkbHV2ZTVzOQ==",
     },
     {
       name: "Ranjith Reddy",
       role: "Engineer",
       bio: "Delivers reliable features and clean code.",
-      photo: "/og-image.jpg",
+      photo: "/ranjith.jpg",
+      photoAlt: "Ranjith Reddy - Engineer",
+      instagram: "https://www.instagram.com/ranjith_reddy_91?igsh=MTN6eTI2cXQ0bWl3Yw==",
     },
     {
       name: "Keerthi",
       role: "Designer",
       bio: "Designs intuitive experiences and visuals.",
-      photo: "/og-image.jpg",
+      photo: "/keerthi.jpg",
+      photoAlt: "Keerthi - Designer",
+      linkedin: "http://www.linkedin.com/in/keerthi-reddy-65a105394",
+      instagram: "https://www.instagram.com/_.keerthireddyc._?igsh=NWoyc2VuNXoybWkx",
     },
     {
       name: "Sonika",
       role: "Engineer",
       bio: "Builds user-first features across the stack.",
-      photo: "/og-image.jpg",
+      photo: "/sonika.jpg",
+      photoAlt: "Sonika - Engineer",
+      linkedin: "http://www.linkedin.com/in/sonika-thondamanati-066a563a0",
+      instagram: "https://www.instagram.com/soniiiii._.12?igsh=MTBxczYyOGIybDRmcw==",
     },
     {
       name: "Uday",
       role: "Engineer",
       bio: "Ships robust UI and API integrations.",
-      photo: "/og-image.jpg",
+      photo: "/uday.jpg",
+      photoAlt: "Uday - Engineer",
+      photoPosition: "object-top",
+      linkedin:
+        "https://www.linkedin.com/in/uday-kumar-bugidi-320664326?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+      instagram: "https://www.instagram.com/udaykumar__7?igsh=bXNwc2NzdjJjb3d5",
     },
     {
       name: "Abhinav",
       role: "Engineer",
       bio: "Automates workflows and improves developer velocity.",
-      photo: "/og-image.jpg",
+      photo: "/abhinav.jpg",
+      photoAlt: "Abhinav - Engineer",
+      photoPosition: "object-top",
+      linkedin: "http://www.linkedin.com/in/abhinav-m-439419380",
+      instagram: "https://www.instagram.com/abhinav_221b?igsh=eDBsNG00MTZudG5s",
     },
     {
       name: "Pavan Kumar Reddy",
       role: "Engineer",
       bio: "Ensures scalability and code quality.",
-      photo: "/og-image.jpg",
+      photo: "/pavan.jpg",
+      photoAlt: "Pavan Kumar Reddy - Engineer",
+      linkedin:
+        "https://www.linkedin.com/in/pavan-kumar-reddy-kovvuru-306a893a0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+      instagram: "https://www.instagram.com/pavan.k_14?igsh=bmkxdHUyc3IyajM4",
+    },
+    {
+      name: "Harsha Vardhan Reddy",
+      role: "Engineer",
+      bio: "Creates robust services and modern interfaces.",
+      photo: "/harsha.jpg",
+      photoAlt: "Harsha Vardhan Reddy - Engineer",
+      linkedin:
+        "https://www.linkedin.com/in/gorantla-chandu-harsha-vardhan-reddy-b7a375293?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+      instagram: "https://www.instagram.com/_harsha_gc_?igsh=MWs1YXI2MGVranVjcg==",
     },
   ];
   const team = rawTeam.filter(
@@ -299,14 +343,22 @@ export default async function Home() {
                   <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-white/10 mb-4">
                     <Image
                       src={member.photo}
-                      alt={member.name}
+                      alt={member.photoAlt ?? member.name}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="object-cover"
+                      className={`object-cover ${member.photoPosition ?? "object-center"} w-full h-full`}
                     />
                   </div>
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-black text-white">{member.name}</h3>
+                    <a
+                      href={member.linkedin ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      referrerPolicy="no-referrer"
+                      className="text-lg font-black text-white hover:text-primary transition-colors"
+                    >
+                      {member.name}
+                    </a>
                     <span className="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-gray-300">
                       {member.role}
                     </span>
@@ -316,6 +368,7 @@ export default async function Home() {
                       href={member.linkedin ?? "#"}
                       target="_blank"
                       rel="noopener noreferrer"
+                      referrerPolicy="no-referrer"
                       className="text-gray-400 hover:text-primary cursor-pointer transition-colors transform hover:scale-110"
                       aria-label={`${member.name} on LinkedIn`}
                     >

@@ -48,7 +48,7 @@ const navLinks = [
   { name: "How We Work", href: "#process" },
   { name: "Expertise", href: "#services" },
   { name: "Team", href: "#team" },
-  { name: "Posts", href: "#posts" },
+  { name: "Projects", href: "#projects" },
 ];
 
 export default function Navbar() {

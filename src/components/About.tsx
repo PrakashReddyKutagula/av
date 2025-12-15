@@ -38,9 +38,10 @@ const experiences = [
   },
   {
     year: "2022",
-    title: "Cloud & DevOps",
+    title: "Growth Marketing",
     company: "Scale",
-    description: "Standardized CI/CD, observability, and resilient architectures.",
+    description:
+      "Scale brand visibility, customer acquisition, and conversions through data-driven marketing strategies and continuous optimization.",
     icon: CloudCog,
   },
   {

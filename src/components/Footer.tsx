@@ -193,9 +193,10 @@ export default function Footer() {
                 <Github className="w-5 h-5" />
               </a>
               <a
-                href="https://www.linkedin.com/in/sharan-gosh-reddy-03a084318?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                href="https://www.linkedin.com/in/sharan-gosh-reddy-03a084318/"
                 target="_blank"
                 rel="noopener noreferrer"
+                referrerPolicy="no-referrer"
                 className="text-gray-400 hover:text-primary cursor-pointer transition-colors transform hover:scale-110"
                 aria-label="LinkedIn"
               >
@@ -254,10 +255,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#posts"
+                  href="#projects"
                   className="relative group hover:text-primary transition-colors cursor-pointer inline-block"
                 >
-                  Posts
+                  Projects
                   <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                 </Link>
               </li>

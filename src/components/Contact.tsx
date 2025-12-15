@@ -4,16 +4,12 @@ import axios from "axios";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AlertCircle, CheckCircle2, Send } from "lucide-react";
-import dynamic from "next/dynamic";
+import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "./Button";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const Turnstile = dynamic(() => import("react-turnstile"), {
-  ssr: false,
-});
 
 type FormData = {
   name: string;
@@ -45,9 +41,14 @@ export default function Contact() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    watch,
+    setValue,
   } = useForm<FormData>();
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [captchaStatus, setCaptchaStatus] = useState<
+    "idle" | "verifying" | "verified" | "error"
+  >("idle");
   const [isMobile, setIsMobile] = useState(false);
   const [shouldLoadTurnstile, setShouldLoadTurnstile] = useState(false);
 
@@ -477,20 +478,36 @@ export default function Contact() {
   }, [status]);
 
   const onSubmit = async (data: FormData) => {
-    if (!turnstileToken) {
-      alert("Please complete the captcha");
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      setStatus("error");
       return;
     }
-
+    if (!recaptchaToken) {
+      setStatus("error");
+      return;
+    }
     try {
-      await axios.post("/api/contact", {
-        ...data,
-        token: turnstileToken,
+      const payload = {
+        access_key: accessKey,
+        name: data.name,
+        email: data.email,
+        message: data.message,
+        subject: "New Contact Form Submission",
+        from_name: "Avasarams Website",
+        privacy: data.privacy ? "true" : "false",
+        recaptcha_response: recaptchaToken || "",
+      };
+      const res = await axios.post("https://api.web3forms.com/submit", payload, {
+        headers: { "Content-Type": "application/json" },
       });
-      setStatus("success");
-      reset();
-    } catch (error) {
-      console.error(error);
+      if (res.data && res.data.success) {
+        setStatus("success");
+        reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
       setStatus("error");
     }
   };
@@ -498,6 +515,12 @@ export default function Contact() {
   const handleSendAnother = () => {
     setStatus("idle");
   };
+
+  useEffect(() => {
+    if (recaptchaToken) {
+      setValue("recaptcha_response", recaptchaToken);
+    }
+  }, [recaptchaToken, setValue]);
 
   return (
     <section
@@ -730,21 +753,82 @@ export default function Contact() {
                   </div>
 
                   {shouldLoadTurnstile && (
-                    <div className="w-full overflow-hidden">
-                      <Turnstile
-                        sitekey={
-                          process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
-                          "1x00000000000000000000AA"
-                        }
-                        onVerify={(token) => setTurnstileToken(token)}
-                        theme="dark"
+                    <>
+                      <input
+                        type="hidden"
+                        {...register("recaptcha_response")}
+                        id="recaptchaResponse"
                       />
-                    </div>
+                      <Script
+                        id="recaptcha-load"
+                        strategy="lazyOnload"
+                        src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}`}
+                        onLoad={() => {
+                          // @ts-expect-error
+                          grecaptcha.ready(function () {
+                            // @ts-expect-error
+                            grecaptcha
+                              .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "", {
+                                action: "contact",
+                              })
+                              .then(function (token: string) {
+                                setRecaptchaToken(token);
+                                setCaptchaStatus("verified");
+                              });
+                          });
+                        }}
+                      />
+                      <div className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-black/20 p-3">
+                        <div className="flex items-center gap-2">
+                          {captchaStatus === "verified" ? (
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                          ) : captchaStatus === "verifying" ? (
+                            <Send className="w-4 h-4 text-primary animate-pulse" />
+                          ) : captchaStatus === "error" ? (
+                            <AlertCircle className="w-4 h-4 text-red-500" />
+                          ) : (
+                            <AlertCircle className="w-4 h-4 text-gray-400" />
+                          )}
+                          <span className="text-xs text-gray-300">
+                            {captchaStatus === "verified"
+                              ? "Captcha verified"
+                              : captchaStatus === "verifying"
+                              ? "Verifying..."
+                              : captchaStatus === "error"
+                              ? "Verification failed"
+                              : "Complete captcha verification"}
+                          </span>
+                        </div>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          className="px-3 py-1"
+                          onClick={() => {
+                            setCaptchaStatus("verifying");
+                            // @ts-expect-error
+                            grecaptcha
+                              .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "", {
+                                action: "contact",
+                              })
+                              .then((token: string) => {
+                                setRecaptchaToken(token);
+                                setCaptchaStatus("verified");
+                              })
+                              .catch(() => {
+                                setCaptchaStatus("error");
+                              });
+                          }}
+                        >
+                          {captchaStatus === "verifying" ? "Verifying..." : "Verify"}
+                        </Button>
+                      </div>
+                    </>
                   )}
 
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !watch("privacy") || !recaptchaToken}
                     isLoading={isSubmitting}
                     variant="gradient"
                     size="lg"
