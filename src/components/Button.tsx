@@ -115,11 +115,24 @@ const Button = React.forwardRef<
     );
 
     if (href) {
+      const handleAnchorClick = (
+        e: React.MouseEvent<HTMLAnchorElement>
+      ) => {
+        if (href.startsWith("#")) {
+          e.preventDefault();
+          const id = href.slice(1);
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+      };
       return (
         <Link
           href={href}
           ref={elementRef as React.Ref<HTMLAnchorElement>}
           className={cn(baseStyles, variants[variant], sizes[size], className)}
+          onClick={handleAnchorClick}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}

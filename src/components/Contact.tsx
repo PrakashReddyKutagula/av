@@ -8,14 +8,17 @@ import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "./Button";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 gsap.registerPlugin(ScrollTrigger);
 
 type FormData = {
   name: string;
+  phone?: string;
   email: string;
   message: string;
   privacy: boolean;
+  "h-captcha-response"?: string;
 };
 
 export default function Contact() {
@@ -108,6 +111,14 @@ export default function Contact() {
 
     return () => observer.disconnect();
   }, [shouldLoadTurnstile]);
+
+  useEffect(() => {
+    (window as any).hcaptchaCallback = (token: string) => {
+      setRecaptchaToken(token);
+      setValue("h-captcha-response", token);
+      setCaptchaStatus("verified");
+    };
+  }, [setValue]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -491,12 +502,14 @@ export default function Contact() {
       const payload = {
         access_key: accessKey,
         name: data.name,
+        phone: data.phone || "",
         email: data.email,
         message: data.message,
         subject: "New Contact Form Submission",
         from_name: "Avasarams Website",
         privacy: data.privacy ? "true" : "false",
-        recaptcha_response: recaptchaToken || "",
+        captcha: "hcaptcha",
+        "h-captcha-response": recaptchaToken || "",
       };
       const res = await axios.post("https://api.web3forms.com/submit", payload, {
         headers: { "Content-Type": "application/json" },
@@ -518,7 +531,7 @@ export default function Contact() {
 
   useEffect(() => {
     if (recaptchaToken) {
-      setValue("recaptcha_response", recaptchaToken);
+      setValue("h-captcha-response", recaptchaToken);
     }
   }, [recaptchaToken, setValue]);
 
@@ -670,6 +683,23 @@ export default function Contact() {
 
                   <div>
                     <label
+                      htmlFor="phone"
+                      className="block text-sm font-semibold mb-2 sm:mb-3 text-gray-300"
+                    >
+                      Phone Number (optional)
+                    </label>
+                    <input
+                      id="phone"
+                      type="tel"
+                      inputMode="tel"
+                      {...register("phone")}
+                      className="w-full bg-black/30 border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/50 transition-all duration-300 text-white placeholder-gray-500 hover:border-white/20"
+                      placeholder="e.g. +91 98765 43210"
+                    />
+                  </div>
+
+                  <div>
+                    <label
                       htmlFor="email"
                       className="block text-sm font-semibold mb-2 sm:mb-3 text-gray-300"
                     >
@@ -756,72 +786,20 @@ export default function Contact() {
                     <>
                       <input
                         type="hidden"
-                        {...register("recaptcha_response")}
-                        id="recaptchaResponse"
+                        {...register("h-captcha-response")}
+                        id="hCaptchaResponse"
                       />
-                      <Script
-                        id="recaptcha-load"
-                        strategy="lazyOnload"
-                        src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}`}
-                        onLoad={() => {
-                          // @ts-expect-error
-                          grecaptcha.ready(function () {
-                            // @ts-expect-error
-                            grecaptcha
-                              .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "", {
-                                action: "contact",
-                              })
-                              .then(function (token: string) {
-                                setRecaptchaToken(token);
-                                setCaptchaStatus("verified");
-                              });
-                          });
-                        }}
-                      />
-                      <div className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-black/20 p-3">
-                        <div className="flex items-center gap-2">
-                          {captchaStatus === "verified" ? (
-                            <CheckCircle2 className="w-4 h-4 text-green-500" />
-                          ) : captchaStatus === "verifying" ? (
-                            <Send className="w-4 h-4 text-primary animate-pulse" />
-                          ) : captchaStatus === "error" ? (
-                            <AlertCircle className="w-4 h-4 text-red-500" />
-                          ) : (
-                            <AlertCircle className="w-4 h-4 text-gray-400" />
-                          )}
-                          <span className="text-xs text-gray-300">
-                            {captchaStatus === "verified"
-                              ? "Captcha verified"
-                              : captchaStatus === "verifying"
-                              ? "Verifying..."
-                              : captchaStatus === "error"
-                              ? "Verification failed"
-                              : "Complete captcha verification"}
-                          </span>
-                        </div>
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="secondary"
-                          className="px-3 py-1"
-                          onClick={() => {
-                            setCaptchaStatus("verifying");
-                            // @ts-expect-error
-                            grecaptcha
-                              .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "", {
-                                action: "contact",
-                              })
-                              .then((token: string) => {
-                                setRecaptchaToken(token);
-                                setCaptchaStatus("verified");
-                              })
-                              .catch(() => {
-                                setCaptchaStatus("error");
-                              });
+                      <div className="mt-4">
+                        <HCaptcha
+                          sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || "50b2fe65-b00b-4b9e-ad62-3ba471098be2"}
+                          reCaptchaCompat={false}
+                          theme="dark"
+                          onVerify={(token) => {
+                            setRecaptchaToken(token);
+                            setValue("h-captcha-response", token);
+                            setCaptchaStatus("verified");
                           }}
-                        >
-                          {captchaStatus === "verifying" ? "Verifying..." : "Verify"}
-                        </Button>
+                        />
                       </div>
                     </>
                   )}

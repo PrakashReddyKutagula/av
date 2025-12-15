@@ -432,7 +432,7 @@ export default function AnimatedOrb() {
             }}
           >
             <svg
-              viewBox="-4 0 400 300"
+              viewBox="0 0 97 72"
               className="w-40 h-40 cursor-pointer pointer-events-auto"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => {
@@ -455,40 +455,11 @@ export default function AnimatedOrb() {
               }}
               preserveAspectRatio="xMidYMid meet"
             >
-              <path
-                d="M374.7,140.2c12.1,6.7,12.1,17.4,0,24.2L214,252.2c-12.1,6.6-32.1,6.6-44.2,0L9.1,164.4c-12.1-6.9-12.1-17.5,0-24.2l30.8-16.8c-3.8,5-2.1,11,5.3,15.1l129.1,70.4c9.7,5.3,25.7,5.3,35.4,0l129.1-70.4c7.4-4.1,9.1-10.1,5.3-15.1L374.7,140.2z"
-                fill="none"
-                stroke={currentTheme.primary}
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                opacity={0.2}
-                style={{ shapeRendering: "geometricPrecision" }}
-              />
-              <path
-                d="M374.7,140.2c12.1,6.7,12.1,17.4,0,24.2L214,252.2c-12.1,6.6-32.1,6.6-44.2,0L9.1,164.4c-12.1-6.9-12.1-17.5,0-24.2l30.8-16.8c-3.8,5-2.1,11,5.3,15.1l129.1,70.4c9.7,5.3,25.7,5.3,35.4,0l129.1-70.4c7.4-4.1,9.1-10.1,5.3-15.1L374.7,140.2z"
-                fill={currentTheme.primary}
-                opacity="1"
-                style={{ shapeRendering: "geometricPrecision" }}
-              />
-
               <g ref={logoTopGroupRef}>
-                <path
-                  d="M209.6,3.9l129.1,70.4c9.7,5.4,9.7,14,0,19.4l-129.1,70.5c-9.7,5.3-25.7,5.3-35.4,0L45.2,93.8c-9.7-5.4-9.7-14,0-19.4L174.2,3.9C183.9-1.3,199.9-1.3,209.6,3.9L209.6,3.9z"
-                  fill="none"
-                  stroke={currentTheme.primary}
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  opacity={0.2}
-                  style={{ shapeRendering: "geometricPrecision" }}
-                />
-                <path
-                  d="M209.6,3.9l129.1,70.4c9.7,5.4,9.7,14,0,19.4l-129.1,70.5c-9.7,5.3-25.7,5.3-35.4,0L45.2,93.8c-9.7-5.4-9.7-14,0-19.4L174.2,3.9C183.9-1.3,199.9-1.3,209.6,3.9L209.6,3.9z"
-                  fill={currentTheme.primary}
-                  opacity="1"
-                  style={{ shapeRendering: "geometricPrecision" }}
-                />
+                <path d="M53.6426 37.8663L56 34.3942L48.2553 23L15 72H19.7148L48.2553 29.9276L53.6426 37.8663Z" fill={currentTheme.primary} />
+                <path d="M61.6674 26.3983L64 22.9407L48.5402 -6.50076e-07L0 72H4.66526L48.5402 6.91458L61.6674 26.3983Z" fill={currentTheme.primary} />
+                <path d="M51 72H55.6223L65.9951 56.7791L76.3777 72H81L65.9844 50L51 72Z" fill={currentTheme.primary} />
+                <path d="M66.005 26.0087L65.9975 26.0195L65.9842 26L63.6412 29.4798L63.6528 29.4972L35 72H39.6952L65.9942 32.9844L92.2939 72H96.9891H97L66.005 26.0087Z" fill={currentTheme.primary} />
               </g>
             </svg>
           </div>

@@ -1,72 +1,7 @@
-import DevToPosts from "@/components/DevToPosts";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Linkedin, Instagram } from "lucide-react";
 
-async function getDevToPosts() {
-  try {
-    const devToUsername = process.env.DEVTO_USERNAME;
-    if (!devToUsername) {
-      return [];
-    }
-
-    const response = await fetch(
-      `https://dev.to/api/articles?username=${devToUsername}&per_page=3&page=1`,
-      {
-        headers: {
-          Accept: "application/json",
-          "User-Agent": "Stackbyte Website",
-        },
-        next: { revalidate: 3600 },
-      }
-    );
-
-    if (!response.ok) {
-      return [];
-    }
-
-    const data = await response.json();
-
-    if (!Array.isArray(data)) {
-      return [];
-    }
-
-    return data.map(
-      (article: {
-        id: number;
-        title?: string;
-        description?: string;
-        url?: string;
-        cover_image?: string;
-        published_at?: string;
-        reading_time_minutes?: number;
-        public_reactions_count?: number;
-        positive_reactions_count?: number;
-        tag_list?: string[];
-        tags?: string;
-      }) => {
-        const tagList =
-          article.tag_list || (article.tags ? article.tags.split(", ") : []);
-
-        return {
-          id: article.id.toString(),
-          title: article.title || "Untitled",
-          description: article.description || "",
-          url: article.url || `https://dev.to/${devToUsername}/${article.id}`,
-          image: article.cover_image,
-          publishedAt: article.published_at || new Date().toISOString(),
-          readTime: article.reading_time_minutes,
-          reactions:
-            article.public_reactions_count || article.positive_reactions_count,
-          tags: tagList,
-        };
-      }
-    );
-  } catch (error) {
-    console.error("Error fetching dev.to posts:", error);
-    return [];
-  }
-}
 
 const Hero = dynamic(() => import("@/components/Hero"), {
   loading: () => null,
@@ -119,8 +54,7 @@ const SkillsShowcase = dynamic(() => import("@/components/SkillsShowcase"), {
   loading: () => null,
 });
 
-export default async function Home() {
-  const posts = await getDevToPosts();
+export default function Home() {
   const rawTeam: Array<{
     name: string;
     role: string;
@@ -133,17 +67,17 @@ export default async function Home() {
   }> = [
     {
       name: "Sharan Reddy",
-      role: "Software Engineer",
-      bio: "Leads delivery and quality with a focus on user impact.",
+      role: "Lead Product Engineer",
+      bio: "Founder driving vision, defining features, guiding team, and supporting development across all projects.",
       photo: "/sharan.jpg",
-      photoAlt: "Sharan Reddy - Software Enginer",
+      photoAlt: "Sharan Reddy - Software Engineer",
       linkedin: "https://www.linkedin.com/in/sharan-gosh-reddy-03a084318/",
       instagram: "https://www.instagram.com/real_sharan_?igsh=NGM2bHd3N2ZqZWVm",
     },
     {
       name: "Puneeth Venkata Sai",
-      role: "Software Engineer",
-      bio: "Builds robust interfaces and services with modern tooling.",
+      role: "Social Media Designer",
+      bio: "Designs engaging social media creatives to boost brand visibility and marketing impact.",
       photo: "/puneeth.jpg",
       photoAlt: "Puneeth Venkata Sai - Software Engineer",
       linkedin:
@@ -152,8 +86,8 @@ export default async function Home() {
     },
     {
       name: "Prakash Reddy",
-      role: "Engineer",
-      bio: "Focuses on performance and maintainable systems.",
+      role: "Frontend Developer",
+      bio: "Builds responsive and user-friendly interfaces to deliver smooth and engaging user experiences.",
       photo: "/prakash.jpg",
       photoAlt: "Prakash Reddy - Software Engineer",
       linkedin:
@@ -162,16 +96,18 @@ export default async function Home() {
     },
     {
       name: "Ranjith Reddy",
-      role: "Engineer",
-      bio: "Delivers reliable features and clean code.",
+      role: "QA Engineer & Social Media Designer",
+      bio: "Ensures product quality through testing while creating engaging designs for social media marketing.",
       photo: "/ranjith.jpg",
       photoAlt: "Ranjith Reddy - Engineer",
+      linkedin:
+        "https://www.linkedin.com/in/ramireddygari-ranjith-reddy-99063132a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
       instagram: "https://www.instagram.com/ranjith_reddy_91?igsh=MTN6eTI2cXQ0bWl3Yw==",
     },
     {
       name: "Keerthi",
-      role: "Designer",
-      bio: "Designs intuitive experiences and visuals.",
+      role: "UI/UX Designer & Backend Developer",
+      bio: "Designs intuitive user experiences while supporting backend logic for smooth applications.",
       photo: "/keerthi.jpg",
       photoAlt: "Keerthi - Designer",
       linkedin: "http://www.linkedin.com/in/keerthi-reddy-65a105394",
@@ -179,17 +115,17 @@ export default async function Home() {
     },
     {
       name: "Sonika",
-      role: "Engineer",
-      bio: "Builds user-first features across the stack.",
-      photo: "/sonika.jpg",
+      role: "UI/UX Designer",
+      bio: "Creates clean, user-centered interface designs that enhance usability and product experience.",
+      photo: "/sonika.jpeg",
       photoAlt: "Sonika - Engineer",
       linkedin: "http://www.linkedin.com/in/sonika-thondamanati-066a563a0",
       instagram: "https://www.instagram.com/soniiiii._.12?igsh=MTBxczYyOGIybDRmcw==",
     },
     {
       name: "Uday",
-      role: "Engineer",
-      bio: "Ships robust UI and API integrations.",
+      role: "Social Media Marketing Executive",
+      bio: "Manages social media marketing strategies to grow reach, engagement, and brand awareness.",
       photo: "/uday.jpg",
       photoAlt: "Uday - Engineer",
       photoPosition: "object-top",
@@ -199,8 +135,8 @@ export default async function Home() {
     },
     {
       name: "Abhinav",
-      role: "Engineer",
-      bio: "Automates workflows and improves developer velocity.",
+      role: "UI/UX Designer",
+      bio: "Designs intuitive and visually appealing user interfaces focused on usability and consistency.",
       photo: "/abhinav.jpg",
       photoAlt: "Abhinav - Engineer",
       photoPosition: "object-top",
@@ -209,8 +145,8 @@ export default async function Home() {
     },
     {
       name: "Pavan Kumar Reddy",
-      role: "Engineer",
-      bio: "Ensures scalability and code quality.",
+      role: "Research & Resources Analyst",
+      bio: "Researches tools, technologies, and resources to support development and decision-making.",
       photo: "/pavan.jpg",
       photoAlt: "Pavan Kumar Reddy - Engineer",
       linkedin:
@@ -219,8 +155,8 @@ export default async function Home() {
     },
     {
       name: "Harsha Vardhan Reddy",
-      role: "Engineer",
-      bio: "Creates robust services and modern interfaces.",
+      role: "IoT Hardware Support Engineer",
+      bio: "Supports IoT projects by handling sensors, hardware components, and device integrations.",
       photo: "/harsha.jpg",
       photoAlt: "Harsha Vardhan Reddy - Engineer",
       linkedin:
@@ -391,7 +327,7 @@ export default async function Home() {
           </div>
         </section>
         <ReadyToStart />
-        <DevToPosts posts={posts} />
+        
         <Contact />
         <Footer />
       </main>

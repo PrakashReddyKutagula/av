@@ -480,7 +480,7 @@ export default function Process() {
               }}
               className="relative z-10 text-white"
             >
-              Your vision. My code.
+              Your vision. Our code.
             </span>
             <br />
             <span

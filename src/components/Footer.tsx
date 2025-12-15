@@ -7,25 +7,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 
-function DevToIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-book-open"
-    >
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-    </svg>
-  );
-}
 
 const openSourceLibraries = [
   {
@@ -134,6 +115,33 @@ export default function Footer() {
     }
   }, [isPromptModalOpen]);
 
+  useEffect(() => {
+    const blockContextMenu = (e: Event) => {
+      e.preventDefault();
+    };
+    const blockKeys = (e: KeyboardEvent) => {
+      const k = e.key.toLowerCase();
+      const ctrl = e.ctrlKey || e.metaKey;
+      const shift = e.shiftKey;
+      const alt = e.altKey;
+      if (
+        k === "f12" ||
+        (ctrl && shift && (k === "i" || k === "j" || k === "c")) ||
+        (ctrl && k === "u") ||
+        (e.metaKey && alt && k === "i")
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+    document.addEventListener("contextmenu", blockContextMenu);
+    document.addEventListener("keydown", blockKeys, { capture: true });
+    return () => {
+      document.removeEventListener("contextmenu", blockContextMenu);
+      document.removeEventListener("keydown", blockKeys, { capture: true } as any);
+    };
+  }, []);
+
   const closeModal = () => {
     if (modalOverlayRef.current && modalContentRef.current) {
       gsap.to(modalContentRef.current, {
@@ -202,17 +210,9 @@ export default function Footer() {
               >
                 <Linkedin className="w-5 h-5" />
               </a>
+              
               <a
-                href={process.env.NEXT_PUBLIC_SOCIAL_DEVTO || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-primary cursor-pointer transition-colors transform hover:scale-110"
-                aria-label="Dev.to"
-              >
-                <DevToIcon />
-              </a>
-              <a
-                href="mailto:contact@avasarams.com"
+                href="mailto:askavasarams@gmail.com"
                 className="text-gray-400 hover:text-primary cursor-pointer transition-colors transform hover:scale-110"
                 aria-label="Contact"
               >
@@ -310,18 +310,9 @@ export default function Footer() {
                 >
                   LinkedIn
                   <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                </Link>
+              </Link>
               </li>
-              <li>
-                <Link
-                  href={process.env.NEXT_PUBLIC_SOCIAL_DEVTO || "#"}
-                  target="_blank"
-                  className="relative group hover:text-primary transition-colors cursor-pointer inline-block"
-                >
-                  Dev.to
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                </Link>
-              </li>
+              
             </ul>
           </div>
         </div>

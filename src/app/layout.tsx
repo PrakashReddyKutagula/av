@@ -85,7 +85,10 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
     apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
   manifest: "/site.webmanifest",

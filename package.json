@@ -13,6 +13,7 @@
   "dependencies": {
     "@dotlottie/react-player": "^1.6.19",
     "@floating-ui/react": "^0.27.16",
+    "@hcaptcha/react-hcaptcha": "^1.17.1",
     "@lottiefiles/react-lottie-player": "^3.6.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
