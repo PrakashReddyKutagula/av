@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "CI= npm run build"
   publish = ".next"
 
 [[plugins]]
@@ -7,3 +7,6 @@
 
 [dev]
   framework = "next"
+
+[context.production.environment]
+  NODE_VERSION = "20"
