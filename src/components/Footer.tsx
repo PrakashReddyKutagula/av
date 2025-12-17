@@ -192,7 +192,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4">
               <a
-                href={process.env.NEXT_PUBLIC_SOCIAL_GITHUB || "#"}
+                href="https://github.com/askavasarams"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-primary cursor-pointer transition-colors transform hover:scale-110"
@@ -201,10 +201,9 @@ export default function Footer() {
                 <Github className="w-5 h-5" />
               </a>
               <a
-                href="https://www.linkedin.com/in/sharan-gosh-reddy-03a084318/"
+                href="https://www.linkedin.com/in/ask-avasarams-0700b239a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                 target="_blank"
                 rel="noopener noreferrer"
-                referrerPolicy="no-referrer"
                 className="text-gray-400 hover:text-primary cursor-pointer transition-colors transform hover:scale-110"
                 aria-label="LinkedIn"
               >
@@ -294,7 +293,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href={process.env.NEXT_PUBLIC_SOCIAL_GITHUB || "#"}
+                  href="https://github.com/askavasarams"
                   target="_blank"
                   className="relative group hover:text-primary transition-colors cursor-pointer inline-block"
                 >
@@ -304,13 +303,13 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href={process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN || "#"}
+                  href="https://www.linkedin.com/in/ask-avasarams-0700b239a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                   target="_blank"
                   className="relative group hover:text-primary transition-colors cursor-pointer inline-block"
                 >
                   LinkedIn
                   <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-              </Link>
+                </Link>
               </li>
               
             </ul>
@@ -379,10 +378,7 @@ export default function Footer() {
                       Feel free to explore, contribute, or fork it!
                     </p>
                     <a
-                      href={
-                        process.env.NEXT_PUBLIC_SOCIAL_GITHUB ||
-                        "https://github.com"
-                      }
+                      href="https://github.com/askavasarams"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-sm text-primary hover:text-secondary-light transition-colors cursor-pointer group"

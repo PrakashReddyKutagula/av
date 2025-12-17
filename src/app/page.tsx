@@ -196,29 +196,37 @@ export default function Home() {
                   title: "Uninest",
                   description:
                     "Student housing platform connecting residents with community.",
-                  image: "/og-image.jpg",
+                  image: "/uninest.jpg",
                   url: "#",
+                  alt: "Uninest preview",
+                  imageClassName: "object-contain w-full h-full object-center",
                 },
                 {
                   title: "Crama",
                   description:
                     "a billing and Ai powered management system for Clothing Industries",
-                  image: "/og-image.jpg",
+                  image: "/crama.jpg",
                   url: "#",
+                  alt: "Crama preview",
+                  imageClassName: "object-contain w-full h-full object-center",
                 },
                 {
                   title: "Elevate Sense",
                   description:
                     "is an IoT and AI-based intelligent elevator system that detects real passenger presence before responding to a call, avoiding unnecessary stops.",
-                  image: "/og-image.jpg",
+                  image: "/elevatesense.jpg",
                   url: "#",
+                  alt: "Elevate Sense preview",
+                  imageClassName: "object-contain w-full h-full object-center",
                 },
                 {
                   title: "Pradakshana app",
                   description:
                     "Mobile-friendly devotional app with guided flows.",
-                  image: "/og-image.jpg",
+                  image: "/pradhakshana.jpg",
                   url: "#",
+                  alt: "Pradakshana App preview",
+                  imageClassName: "object-contain w-full h-full object-center",
                 },
               ].map((project) => (
                 <div
@@ -228,10 +236,10 @@ export default function Home() {
                   <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 mb-4">
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={(project as any).alt || project.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="object-cover"
+                      className={(project as any).imageClassName || "object-cover w-full h-full object-center"}
                     />
                   </div>
                   <div className="flex items-center justify-between mb-2">

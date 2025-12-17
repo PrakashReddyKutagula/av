@@ -58,7 +58,7 @@ export default function Error({
       </div>
       <div className="flex gap-6 mt-4">
         <a
-          href={process.env.NEXT_PUBLIC_SOCIAL_GITHUB || "#"}
+          href="https://github.com/askavasarams"
           target="_blank"
           rel="noopener noreferrer"
           className="text-red-500 hover:text-red-400 cursor-pointer transition-colors transform hover:scale-110"
@@ -66,7 +66,7 @@ export default function Error({
           <Github className="w-6 h-6" />
         </a>
         <a
-          href={process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN || "#"}
+          href="https://www.linkedin.com/in/ask-avasarams-0700b239a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
           target="_blank"
           rel="noopener noreferrer"
           className="text-red-500 hover:text-red-400 cursor-pointer transition-colors transform hover:scale-110"

@@ -1,6 +1,6 @@
 export default function PersonSchema() {
-  const githubUrl = process.env.NEXT_PUBLIC_SOCIAL_GITHUB;
-  const linkedinUrl = process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN;
+  const githubUrl = "https://github.com/askavasarams";
+  const linkedinUrl = "https://www.linkedin.com/in/ask-avasarams-0700b239a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app";
   const devToUrl = process.env.NEXT_PUBLIC_SOCIAL_DEVTO;
 
   const sameAs: string[] = [];
